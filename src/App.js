@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useRef } from "react";
+import JoditEditor from "jodit-react";
+
+import './App.css'
 
 function App() {
+  const editor = useRef(null);
+  const [content, setContent] = useState("Start writing");
+
+  const config = {
+    readonly: false,
+    height: 400,
+  };
+  const handleUpdate = (event) => {
+    const editorContent = event.target.value;
+    setContent(editorContent);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <JoditEditor
+        ref={editor}
+        value={content}
+        config={config}
+        onBlur={handleUpdate}
+        onChange={(newContent) => {}}
+      />
+      <div dangerouslySetInnerHTML={{ __html: content }} />
     </div>
   );
 }
